@@ -3,7 +3,18 @@
  */
 public class MontyHall {
 
-    public MontyHall() {
+    private int numSimulations;
+    private int numDoors;
 
+    public MontyHall(int numSimulations, int numDoors) {
+        this.numSimulations = numSimulations;
+        this.numDoors = numDoors;
     }
+
+    public MontyHall(int numSimulations) {
+        this.numSimulations = numSimulations;
+        this.numDoors = 3;
+    }
+
+
 }
