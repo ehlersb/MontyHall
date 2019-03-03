@@ -39,8 +39,27 @@ public class MontyHall {
 
     public void runSimulation() {
         Random rand = new Random();
-        for(int i = 0; i < numSimulations; i++) {
+        int numLosses = 0;
+        int numWins = 0;
+        long numSwitchSims = Math.round(numSimulations * (switchPercentage / 100.0));
+        long numNotSwitchSims = numSimulations - numSwitchSims;
+        for(long i = 0; i < numSwitchSims; i++) {
+            int winningDoor = rand.nextInt(numDoors) + 1;
+            int pickedDoor = rand.nextInt(numDoors) + 1;
+            pickedDoor = switchDoor(winningDoor, pickedDoor);
 
         }
+        for(long i = 0; i < numNotSwitchSims; i++) {
+            int winningDoor = rand.nextInt(3) + 1;
+            int pickedDoor = rand.nextInt(3) + 1;
+
+        }
+    }
+    private int switchDoor(int winningDoor, int pickedDoor) {
+        Random rand = new Random();
+        int doorToSwitchTo = rand.nextInt(numDoors) + 1;
+        while((doorToSwitchTo = rand.nextInt(numDoors) + 1) == winningDoor ||
+                (doorToSwitchTo = rand.nextInt(numDoors) + 1) == pickedDoor);
+        return doorToSwitchTo;
     }
 }
