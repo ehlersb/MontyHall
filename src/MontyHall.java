@@ -24,14 +24,14 @@ public class MontyHall {
 
     public MontyHall(int numSimulations) {
         this.numSimulations = numSimulations;
-        this.switchPercentage = 0;
+        this.switchPercentage = 100;
         this.numDoors = 3;
 
     }
 
     public MontyHall() {
         this.numSimulations = 1000;
-        this.switchPercentage = 0;
+        this.switchPercentage = 100;
         this.numDoors = 3;
 
     }
@@ -46,20 +46,27 @@ public class MontyHall {
         for(long i = 0; i < numSwitchSims; i++) {
             int winningDoor = rand.nextInt(numDoors) + 1;
             int pickedDoor = rand.nextInt(numDoors) + 1;
-            pickedDoor = switchDoor(winningDoor, pickedDoor);
-
+            pickedDoor = switchDoor(pickedDoor, winningDoor);
+            if(pickedDoor == winningDoor) numWins++;
+            else numLosses++;
         }
         for(long i = 0; i < numNotSwitchSims; i++) {
-            int winningDoor = rand.nextInt(3) + 1;
-            int pickedDoor = rand.nextInt(3) + 1;
-
+            int winningDoor = rand.nextInt(numDoors) + 1;
+            int pickedDoor = rand.nextInt(numDoors) + 1;
+            if(pickedDoor == winningDoor) numWins++;
+            else numLosses++;
         }
+        double percentageWins = (numWins + 0.0) / (numSimulations + 0.0) * 100.0;
+        System.out.println("Win percentage: " + percentageWins + "%");
     }
-    private int switchDoor(int winningDoor, int pickedDoor) {
+    private int switchDoor(int pickedDoor, int winningDoor) {
         Random rand = new Random();
-        int doorToSwitchTo = rand.nextInt(numDoors) + 1;
-        while((doorToSwitchTo = rand.nextInt(numDoors) + 1) == winningDoor ||
-                (doorToSwitchTo = rand.nextInt(numDoors) + 1) == pickedDoor);
+        int doorToSwitchTo = (rand.nextInt(numDoors) + 1);
+        int doorToReveal = (rand.nextInt(numDoors) + 1);
+        while(doorToReveal == pickedDoor || doorToReveal == winningDoor)
+            doorToReveal = (rand.nextInt(numDoors) + 1);
+        while(doorToSwitchTo  == pickedDoor || doorToSwitchTo == doorToReveal)
+            doorToSwitchTo = (rand.nextInt(numDoors) + 1);
         return doorToSwitchTo;
     }
 }
